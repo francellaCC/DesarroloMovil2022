@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.registro.Modelo.Adapter;
 import com.example.registro.Modelo.Estudiante;
 import com.example.registro.Modelo.Registro;
 
@@ -40,7 +41,7 @@ public class act_Registro extends AppCompatActivity {
 
     Uri fotoTemp;
 
-
+    Adapter adapterP;
     private final int Galeria=1;
     private final int Camara=2;
     Estudiante estudiante;
@@ -71,7 +72,7 @@ public class act_Registro extends AppCompatActivity {
 
         lista = findViewById(R.id.lista);
 
-        imgUser = findViewById(R.id.imageView3);
+        imgUser = findViewById(R.id.imageView);
 
 
         btnAgregar.setOnClickListener(new View.OnClickListener() {
@@ -88,8 +89,10 @@ public class act_Registro extends AppCompatActivity {
                     mensaje=registro.aregarEstudiante(estudiante);
                     Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
                     limpiar();
-                    adapter = new ArrayAdapter(act_Registro.this, android.R.layout.simple_list_item_1,registro.devolverLista());
-                    lista.setAdapter(adapter);
+                    //adapter = new ArrayAdapter(act_Registro.this, android.R.layout.simple_list_item_1,registro.devolverLista());
+
+                    adapterP = new Adapter(getApplicationContext(),registro.devolverLista());
+                    lista.setAdapter(adapterP);
                 }
             }
         });
@@ -183,7 +186,7 @@ public class act_Registro extends AppCompatActivity {
                     }
                 });
 
-                alertDialog.setPositiveButton("Camara", new DialogInterface.OnClickListener() {
+                alertDialog.setNegativeButton("Camara", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
