@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import com.example.registro.Modelo.Adapter;
 import com.example.registro.Modelo.Estudiante;
 import com.example.registro.Modelo.Registro;
+import com.example.registro.Modelo.act_Lista;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -105,7 +107,7 @@ public class act_Registro extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Por Favor ingrese el carnet",Toast.LENGTH_SHORT).show();
                 }else{
 
-                    int posicion = registro.getPosicon(txtCarnet.getText().toString().trim());
+                 /*   int posicion = registro.getPosicon(txtCarnet.getText().toString().trim());
                     estudiante=registro.devolverEstudiante(posicion);
                     if(estudiante!=null){
                         txtNombre.setText(estudiante.getNombre());
@@ -115,6 +117,10 @@ public class act_Registro extends AppCompatActivity {
                     }else{
                         Toast.makeText(act_Registro.this, "El estudiante no se encuentra", Toast.LENGTH_SHORT).show();
                     }
+                    */
+                  Intent i = new Intent(act_Registro.this, act_Lista.class);
+                  i.putParcelableArrayListExtra("miLista",registro.devolverLista());
+                  startActivity(i);
                 }
             }
         });
@@ -199,7 +205,18 @@ public class act_Registro extends AppCompatActivity {
             }
 
         });
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                estudiante=registro.devolverEstudiante(i);
+                txtNombre.setText(estudiante.getNombre());
+                txtCarnet.setText(estudiante.getCarnte());
+                txtCarrera.setText(estudiante.getCarrera());
+                textTelefono.setText(""+estudiante.getTelefono());
+                imgUser.setImageURI(estudiante.getImgUser());
 
+            }
+        });
 
     }
 
@@ -254,6 +271,7 @@ public class act_Registro extends AppCompatActivity {
         txtCarnet.setText("");
         txtCarrera.setText("");
         textTelefono.setText("");
+        imgUser.setImageURI(null);
     }
 
 

@@ -1,8 +1,10 @@
 package com.example.registro.Modelo;
 
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Estudiante {
+public class Estudiante implements Parcelable {
     public String nombre;
     public String carnte;
     public String carrera;
@@ -25,6 +27,26 @@ public class Estudiante {
         this.telefono = 0;
         this.imgUser=null;
     }
+
+    protected Estudiante(Parcel in) {
+        nombre = in.readString();
+        carnte = in.readString();
+        carrera = in.readString();
+        telefono = in.readInt();
+        imgUser = in.readParcelable(Uri.class.getClassLoader());
+    }
+
+    public static final Creator<Estudiante> CREATOR = new Creator<Estudiante>() {
+        @Override
+        public Estudiante createFromParcel(Parcel in) {
+            return new Estudiante(in);
+        }
+
+        @Override
+        public Estudiante[] newArray(int size) {
+            return new Estudiante[size];
+        }
+    };
 
     public String getNombre() {
         return nombre;
@@ -75,5 +97,19 @@ public class Estudiante {
                 ", telefono=" + telefono +
                 ", imgUser=" + imgUser +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(nombre);
+        parcel.writeString(carnte);
+        parcel.writeString(carrera);
+        parcel.writeInt(telefono);
+        parcel.writeParcelable(imgUser,i);
     }
 }
