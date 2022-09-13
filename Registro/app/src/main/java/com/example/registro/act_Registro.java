@@ -3,12 +3,19 @@ package com.example.registro;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityManagerCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.app.ActivityManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -35,12 +42,13 @@ import java.io.IOException;
 
 public class act_Registro extends AppCompatActivity {
 
+    public static final  String chanelId="Notificacion";
+    public static final  int notificationID=0;
+
+
     EditText txtNombre, txtCarnet,txtCarrera,textTelefono;
-
     Button btnAgregar, btnModificar,btnEliminar,btnBuscar,btnLlamar;
-
     ImageView imgUser;
-
     Uri fotoTemp;
 
     Adapter adapterP;
@@ -118,6 +126,7 @@ public class act_Registro extends AppCompatActivity {
                         Toast.makeText(act_Registro.this, "El estudiante no se encuentra", Toast.LENGTH_SHORT).show();
                     }
                     */
+                    createNotification();
                   Intent i = new Intent(act_Registro.this, act_Lista.class);
                   i.putParcelableArrayListExtra("miLista",registro.devolverLista());
                   startActivity(i);
@@ -265,6 +274,41 @@ public class act_Registro extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Ha ocurrido un error", Toast.LENGTH_SHORT).show();
         }
     }
+
+    //-------------------------------------------------------------------------------------------------------------------------------------------
+    //metodo para notificicacion en versiones anteriores a la 26
+
+    public void createNotification(){
+        NotificationCompat.Builder builder = new
+                NotificationCompat.Builder(getApplicationContext(),chanelId);
+        builder.setSmallIcon(R.drawable.ic_lista);
+        builder.setContentTitle("Lista Estudiantes");
+        builder.setContentText("Se abrió una ventana con lista");
+        builder.setColor(Color.RED);
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        builder.setLights(Color.MAGENTA, 1000, 10000);
+        builder.setVibrate(new long[]{1000,1000,1000,1000,1000});
+        builder.setDefaults(Notification.DEFAULT_SOUND);
+
+        NotificationManagerCompat notificationManagerCompat =
+                NotificationManagerCompat.from(getApplicationContext());
+        notificationManagerCompat.notify(notificationID, builder.build());
+    }
+//-------------------------------------------------------------------------
+
+    //para versiones posteriores a 26
+    public void createdNotificationChannel(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //verifica si la version es mayor a 26
+            CharSequence name = "Notificacion";
+            NotificationChannel notificationChannel = new NotificationChannel(chanelId, name, NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+
+    }
+
+
+    //-------------------------------------------------------------------------------------------------------------------------------------------
 
     public void limpiar(){
         txtNombre.setText("");
