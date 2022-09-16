@@ -40,6 +40,10 @@ public class RegistroRestaurante {
         }
     }
 
+    public void setListaRestaurante(ArrayList<Restaurante> listaRestaurante) {
+        this.listaRestaurante = listaRestaurante;
+    }
+
     public ArrayList<Restaurante> getListaRestaurante() {
         return listaRestaurante;
     }

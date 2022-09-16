@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.restaurante.Modelo.Adapter;
 import com.example.restaurante.Modelo.RegistroRestaurante;
 import com.example.restaurante.Modelo.Restaurante;
 import com.example.restaurante.Modelo.act_Lista;
@@ -28,6 +29,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,11 +37,12 @@ public class MainActivity extends AppCompatActivity {
     ImageView imgUser;
     Uri fotoTemp;
     Button btnAgregar;
-    Restaurante restaurante;
+    Restaurante plato;
     RegistroRestaurante registroRestaurante = new RegistroRestaurante();
     String mensaje;
     ListView listaE;
     ArrayAdapter adapter;
+    Adapter adapterP;
 
 
     private final int Galeria = 1;
@@ -70,12 +73,13 @@ public class MainActivity extends AppCompatActivity {
                         txtCodigoPlato.getText().toString().trim().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Por favor llenar todos los campos", Toast.LENGTH_SHORT).show();
                 }else{
-                    restaurante= new Restaurante(txtCodigoPlato.getText().toString().trim(),txtCodigoPlato.getText().toString().trim(),txtPrecio.getText().toString().trim(),fotoTemp);
-                    mensaje= registroRestaurante.registrarPlato(restaurante);
+                    plato= new Restaurante(txtCodigoPlato.getText().toString().trim(),txtCodigoPlato.getText().toString().trim(),
+                            txtPrecio.getText().toString().trim(),fotoTemp);
+                    mensaje= registroRestaurante.registrarPlato(plato);
                     Toast.makeText(MainActivity.this, mensaje, Toast.LENGTH_SHORT).show();
                     limpiar();
-                    adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1,registroRestaurante.getListaRestaurante());
-                    listaE.setAdapter(adapter);
+                    adapterP = new Adapter(getApplicationContext(),registroRestaurante.getListaRestaurante());
+                    listaE.setAdapter(adapterP);
                 }
             }
         });
@@ -117,7 +121,9 @@ public class MainActivity extends AppCompatActivity {
         listaE.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                restaurante=registroRestaurante.devolverPlato(i);
+                plato=registroRestaurante.devolverPlato(i);
+                ArrayList<Restaurante> platos = new ArrayList<>();
+                platos.add(plato);
 //                txtCodigoPlato.setText(restaurante.getCodigoPLato());
 //                txtDescripcion.setText(restaurante.getDescripcion());
 //                txtPrecio.setText(restaurante.getPrecio());
@@ -125,9 +131,8 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(MainActivity.this, act_Lista.class);
 
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("plato",restaurante);
-                intent.putExtras(bundle);
+                intent.putParcelableArrayListExtra("miLista",registroRestaurante.getListaRestaurante());
+                intent.putExtra("posicion",i);
                 startActivity(intent);
 
             }
