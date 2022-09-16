@@ -31,4 +31,16 @@ public class RegistroRestaurante {
 
         return -1;
     }
+
+    public Restaurante devolverPlato(int posicion){
+        if(posicion !=-1){
+            return listaRestaurante.get(posicion);
+        }else{
+            return null;
+        }
+    }
+
+    public ArrayList<Restaurante> getListaRestaurante() {
+        return listaRestaurante;
+    }
 }

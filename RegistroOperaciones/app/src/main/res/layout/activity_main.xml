@@ -125,11 +125,11 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button23"
+                android:id="@+id/btnGuardar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:text="Guardar" />
 
             <Button
                 android:id="@+id/button24"
@@ -139,11 +139,11 @@
                 android:text="Button" />
 
             <Button
-                android:id="@+id/button25"
+                android:id="@+id/btnBorar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:text="Borrar" />
         </LinearLayout>
 
         <LinearLayout
@@ -152,11 +152,11 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button26"
+                android:id="@+id/btnRegistro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:text="Registro" />
         </LinearLayout>
 
     </LinearLayout>
