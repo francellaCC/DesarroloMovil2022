@@ -5,11 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.example.restaurante.Modelo.RegistroRestaurante;
 
 import com.example.restaurante.R;
 
@@ -18,9 +15,9 @@ import java.util.ArrayList;
 public class Adapter extends BaseAdapter {
 
     Context context;
-    ArrayList<Restaurante> lista;
+    ArrayList<Plato> lista;
 
-    public Adapter(Context context, ArrayList<Restaurante> lista) {
+    public Adapter(Context context, ArrayList<Plato> lista) {
         this.context = context;
         this.lista = lista;
     }//Fin del constructor

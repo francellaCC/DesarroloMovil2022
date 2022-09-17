@@ -5,11 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
+
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
+
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,14 +20,9 @@ import android.widget.Toast;
 
 import com.example.restaurante.Modelo.Adapter;
 import com.example.restaurante.Modelo.RegistroRestaurante;
-import com.example.restaurante.Modelo.Restaurante;
+import com.example.restaurante.Modelo.Plato;
 import com.example.restaurante.Modelo.act_Lista;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,11 +31,10 @@ public class MainActivity extends AppCompatActivity {
     ImageView imgUser;
     Uri fotoTemp;
     Button btnAgregar;
-    Restaurante plato;
+    Plato plato;
     RegistroRestaurante registroRestaurante = new RegistroRestaurante();
     String mensaje;
     ListView listaE;
-    ArrayAdapter adapter;
     Adapter adapterP;
 
 
@@ -73,7 +66,8 @@ public class MainActivity extends AppCompatActivity {
                         txtCodigoPlato.getText().toString().trim().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Por favor llenar todos los campos", Toast.LENGTH_SHORT).show();
                 }else{
-                    plato= new Restaurante(txtCodigoPlato.getText().toString().trim(),txtCodigoPlato.getText().toString().trim(),
+
+                    plato= new Plato(txtCodigoPlato.getText().toString().trim(),txtCodigoPlato.getText().toString().trim(),
                             txtPrecio.getText().toString().trim(),fotoTemp);
                     mensaje= registroRestaurante.registrarPlato(plato);
                     Toast.makeText(MainActivity.this, mensaje, Toast.LENGTH_SHORT).show();
@@ -121,10 +115,26 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }//Fin del oncreate
 
 //  ******************************************
+
+    public void onActivityResult(int rqCode, int resCode,Intent data){
+        super.onActivityResult(rqCode,resCode,data);
+        if(resCode == RESULT_OK){
+            switch (rqCode){
+                case Galeria:
+                    //A la variable fotoTemp se le asignan los datos que se encuentran en el intent data
+                    fotoTemp=data.getData();
+                    //Al imageUser se le carga la direccion de la imagen que se guardo en temp
+                    imgUser.setImageURI(fotoTemp);
+                    Toast.makeText(getApplicationContext(), "Imagen cargada correctamente", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }else{
+            Toast.makeText(getApplicationContext(), "Ha ocurrido un error", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     public void limpiar(){
         txtCodigoPlato.setText("");
