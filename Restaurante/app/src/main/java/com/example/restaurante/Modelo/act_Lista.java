@@ -3,6 +3,7 @@ package com.example.restaurante.Modelo;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,13 +19,11 @@ import java.util.ArrayList;
 
 public class act_Lista extends AppCompatActivity {
     EditText txtCodigoPlato, txtDescripcion,txtPrecio;
-    ImageView imgUser;
-    Uri fotoTemp;
-    Button btnModificar,btnBorrar;
+    Button btnModificar,btnBorrar,btnRegresar;
     Restaurante plato;
+    Restaurante platoTemp;
     RegistroRestaurante registroRestaurante = new RegistroRestaurante();
     String mensaje;
-    ArrayAdapter adapter;
     Adapter adapterP;
    ArrayList<Restaurante> listaPlatos;
 
@@ -39,21 +38,58 @@ public class act_Lista extends AppCompatActivity {
         txtDescripcion=findViewById(R.id.txtDescripcion);
         txtCodigoPlato=findViewById(R.id.txtCodigoPlato);
 
-        //imagen
-        imgUser=findViewById(R.id.imgUser);
 
         //botones
         btnModificar=findViewById(R.id.btnModificar);
         btnBorrar=findViewById(R.id.btnBorrar);
-
+        btnRegresar=findViewById(R.id.btnRegresar);
+//
         listaPlatos =getIntent().getParcelableArrayListExtra("miLista");
         Integer posicion= getIntent().getIntExtra("posicion",-1);
 
         plato= listaPlatos.get(posicion);
 
         txtCodigoPlato.setText(plato.getCodigoPLato());
+        txtDescripcion.setText(plato.getDescripcion());
+        txtPrecio.setText(plato.getPrecio());
+       // imgUser.setImageURI(plato.getImgUser());
+
+
+
+
+        btnModificar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(txtCodigoPlato.getText().toString().isEmpty()
+                        || txtDescripcion.getText().toString().isEmpty()
+                        || txtPrecio.getText().toString().isEmpty()
+                ){
+                    Toast.makeText(getApplicationContext(),
+                            "Porfavor llenar todos los espacios",
+                            Toast.LENGTH_SHORT).show();
+                }else{
+                    plato.setPrecio(txtPrecio.getText().toString().trim());
+                    plato.setDescripcion(txtDescripcion.getText().toString().trim());
+                    plato.setCodigoPLato(txtCodigoPlato.getText().toString().trim());
+                    mensaje = registroRestaurante.modificarProducto(plato);
+
+                    Toast.makeText(getApplicationContext(),mensaje,
+                            Toast.LENGTH_SHORT).show();
+                    System.out.println(plato);
+            }}
+        });
+
+        btnRegresar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+
 
     }
+
 
     public void  nose(){
         if(getIntent().getExtras()!=null) {
@@ -61,5 +97,11 @@ public class act_Lista extends AppCompatActivity {
 
             Toast.makeText(getApplicationContext(), "si hay datos", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void limpiar(){
+        txtCodigoPlato.setText("");
+        txtDescripcion.setText("");
+        txtPrecio.setText("");
     }
 }

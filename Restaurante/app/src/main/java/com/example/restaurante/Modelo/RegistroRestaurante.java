@@ -1,5 +1,7 @@
 package com.example.restaurante.Modelo;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 
 public class RegistroRestaurante {
@@ -44,6 +46,14 @@ public class RegistroRestaurante {
         this.listaRestaurante = listaRestaurante;
     }
 
+    public String modificarProducto(Restaurante restaurante){
+        int index = getPosicon(restaurante.getCodigoPLato());
+        if(restaurante!= null && index != -1){
+            listaRestaurante.set(index, restaurante);
+            return " El producto ha sido modificado correctamente";
+        }
+        return "error al meter el producto";
+    }
     public ArrayList<Restaurante> getListaRestaurante() {
         return listaRestaurante;
     }
