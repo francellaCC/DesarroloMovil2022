@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">PracticaClase2</string>
+    <string name="btnEliminar">Eliminar</string>
+    <string name="btnModificar">Modificar</string>
+    <string name="btnGuardar">Guardar</string>
+    <string name="btnRegistro">Módulo Registro</string>
+    <string name="btnIngresos">Módulo Gráfico Ingresos</string>
+    <string name="btnVentas">Módulo Gráfico ventas</string>
+    <string name="btnInformeRegistro">Módulo Informe Registros</string>
+
+</resources>
