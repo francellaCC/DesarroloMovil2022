@@ -4,7 +4,7 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Restaurante implements Parcelable {
+public class Plato implements Parcelable {
 
     private String codigoPLato;
     private String descripcion;
@@ -12,35 +12,35 @@ public class Restaurante implements Parcelable {
 
     private Uri imgUser;
 
-    public Restaurante(String codigoPLato, String descripcion, String precio,Uri imgUser) {
+    public Plato(String codigoPLato, String descripcion, String precio, Uri imgUser) {
         this.codigoPLato = codigoPLato;
         this.descripcion = descripcion;
         this.precio = precio;
         this.imgUser=imgUser;
     }
-    public Restaurante(){
+    public Plato(){
         codigoPLato = "";
         descripcion = "";
         precio = "";
         imgUser=null;
     }
 
-    protected Restaurante(Parcel in) {
+    protected Plato(Parcel in) {
         codigoPLato = in.readString();
         descripcion = in.readString();
         precio = in.readString();
         imgUser = in.readParcelable(Uri.class.getClassLoader());
     }
 
-    public static final Creator<Restaurante> CREATOR = new Creator<Restaurante>() {
+    public static final Creator<Plato> CREATOR = new Creator<Plato>() {
         @Override
-        public Restaurante createFromParcel(Parcel in) {
-            return new Restaurante(in);
+        public Plato createFromParcel(Parcel in) {
+            return new Plato(in);
         }
 
         @Override
-        public Restaurante[] newArray(int size) {
-            return new Restaurante[size];
+        public Plato[] newArray(int size) {
+            return new Plato[size];
         }
     };
 
